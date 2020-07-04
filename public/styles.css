@@ -1,0 +1,117 @@
+:root {
+  --primary-gradient: linear-gradient(180deg, #333 25%, #4a4a4a 100%);
+  --dark-gradient: linear-gradient(180deg, #222 100%, #3a3a3a 25%);
+}
+
+body {
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: #FFF;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+#navbar {
+  width: 100%;
+  height: 3rem;
+  background: var(--primary-gradient);
+  box-shadow: 0px 2px 3px -1px #000;
+}
+
+#navbar ul {
+  display: grid;
+  list-style: none;
+  padding-inline-start: 0;
+  margin: 0;
+  grid-template-columns: repeat(3, 1fr) 4rem;
+}
+
+.navbar-element {
+  color: white;
+  font-size: 2rem;
+  text-align: center;
+  padding: 6px 1rem 6px 1rem;
+}
+
+.navbar-element:hover {
+  cursor: pointer;
+  background: var(--dark-gradient);
+}
+
+.navbar-element a {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+#settings {
+  text-align: right;
+}
+
+#signin {
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  top: 25%;
+  left: 25%;
+  text-align: center;
+  background: #FFF;
+  box-shadow: 0.2px 0.2px 3px 0px black;
+}
+
+#signin h1 {
+  margin-bottom: 2rem;
+}
+
+#signin .label {
+  text-align: left;
+  padding-left: calc(20% - 1.15rem);
+  margin: 0.5rem;
+}
+
+#signin input {
+  font-size: 1rem;
+  border: 1px solid #333;
+  padding: 0.5rem;
+  width: 60%;
+}
+
+#signin input:-webkit-autofill {
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+#signin button {
+  font-size: 1.5rem;
+  border: none;
+  border-radius: 2px;
+  color: white;
+  background: var(--primary-gradient);
+  padding: 0.5rem;
+  width: 7rem;
+  margin: 2rem 0.25rem;
+}
+
+#signin button:hover {
+  background: var(--dark-gradient);
+  cursor: pointer;
+}
+
+#signup {
+  margin-top: 1rem;
+}
+
+#cover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: black;
+  opacity: 0.75;
+}
