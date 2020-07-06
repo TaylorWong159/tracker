@@ -17,27 +17,54 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
-  // Check User Cookies for info
-  try {
-    validateUser(JSON.parse(req.cookies.user), res);
-  } catch (error) {
-    res.render('signin');
-  }
+  render('home', req, res);
+});
+
+app.get('/about', (req, res) => {
+  render('about', req, res);
+});
+
+app.get('/profile', (req, res) => {
+  render('profile', req, res);
+});
+
+app.get('/settings', (req, res) => {
+  render('settings', req, res);
+});
+
+app.get('/friends', (req, res) => {
+  render('friends', req, res);
 });
 
 app.post('/login', (req, res) => {
   res.set('Content-Type', 'text/html');
-  validateUser(JSON.parse(req.body), res);
+  console.log(req.body);
+  if (validateUser(req.body)) {
+    res.render('home');
+  } else {
+    res.render('signin');
+  }
 })
 
+function render(page, req, res) {
+  try {
+    if (validateUser(JSON.parse(req.cookies.user))) {
+      res.render(page);
+    } else {
+      res.render('signin');
+    }
+  } catch (error) {
+    res.render('signin');
+  }
+}
 
-function validateUser(user, res) {
+function validateUser(user) {
   // Query User Database
 
   // Validate User
   if (user != undefined) {
-    res.render('home');
+    return true;
   } else {
-    res.render('signin');
+    return false;
   }
 }
