@@ -69,7 +69,7 @@ function render(page, req, res) {
   try {
     let user = validateUser(JSON.parse(encryption.decrypt(req.cookies.user)));
     if (user) {
-      res.render(page);
+      res.render(page, { user: user });
     } else {
       res.render('signin');
     }

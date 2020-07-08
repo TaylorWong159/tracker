@@ -1,1 +1,11 @@
-<div id="container">Friends</div>
+<div id="container">
+  <h1 id="title">Friends</h1>
+  <ul id="friends-list">
+    {{#each user.friends}}
+      <li class="friend">
+        <h3 class="name">{{this.name}}</h3>
+
+      </li>
+    {{/each}}
+  </ul>
+</div>

@@ -2,7 +2,7 @@ class User {
   constructor(name, password, privid, pubid, friends) {
     this.name = name;
     this.password = password || '';
-    this.friends = friends || [];
+    this.friends = friends || [{ name: 'taylor' }, { name: 'tyson' }, { name: 'connor' }];
     this.pubid = pubid || 0;
     this.privid = privid || 0;
   }
