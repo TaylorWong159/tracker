@@ -3,6 +3,9 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const hbs = require('express-handlebars');
 const cookieParser = require('cookie-parser');
+const { User, Friend } = require('./user.js');
+const encryption = require('./encrypt.js');
+
 const port = process.env.PORT || 3000;
 const app = express();
 
@@ -37,18 +40,35 @@ app.get('/friends', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-  res.set('Content-Type', 'text/html');
-  console.log(req.body);
-  if (validateUser(req.body)) {
-    res.render('home');
+  let user;
+  try {
+    user = validateUser(JSON.parse(encryption.decrypt(req.cookies.user)));
+  } catch (err) {
+    user = undefined;
+  }
+
+  if (user) {
+    res.send({ userFound: true, user: encryption.encrypt(JSON.stringify({ name: user.name, password: user.password })), msg: 'cookie' });
   } else {
-    res.render('signin');
+    let newUser;
+    try {
+      newUser = validateUser(req.body);
+      if (newUser) {
+        res.send({ userFound: true, user: encryption.encrypt(JSON.stringify(req.body)), msg: '' });
+      } else {
+        res.send({ userFound: false, msg: 'User Not Found' });
+      }
+    } catch(err) {
+      res.send({ userFound: false, msg: 'User Not Found' });
+    }
+
   }
 })
 
 function render(page, req, res) {
   try {
-    if (validateUser(JSON.parse(req.cookies.user))) {
+    let user = validateUser(JSON.parse(encryption.decrypt(req.cookies.user)));
+    if (user) {
       res.render(page);
     } else {
       res.render('signin');
@@ -58,13 +78,17 @@ function render(page, req, res) {
   }
 }
 
-function validateUser(user) {
+function validateUser(info) {
   // Query User Database
+  let user;
+  try {
+    if (info.name && info.password) {
+      user = new User(info.name, info.password);
+    }
+  } catch (err) {
+    user = undefined;
+  }
 
   // Validate User
-  if (user != undefined) {
-    return true;
-  } else {
-    return false;
-  }
+  return user;
 }
